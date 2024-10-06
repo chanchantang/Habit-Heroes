@@ -26,8 +26,8 @@ const LevelBar = ({ name, exp, color }) => {
         <div
           class={`progress-bar ${style_color}`}
           role="progressbar"
-          style={{ width: exp + "%" }}
-          aria-valuenow={exp}
+          style={{ width: exp / 10 + "%" }}
+          aria-valuenow={exp / 10}
           aria-valuemin="0"
           aria-valuemax="100"
         ></div>

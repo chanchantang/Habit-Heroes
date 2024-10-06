@@ -4,6 +4,7 @@ import React, { Fragment, useEffect, useState } from "react";
 
 const Leaderboard = () => {
   const [users, setUsers] = useState([]);
+  const [sortedUsers, setSortedUsers] = useState([]);
 
   const getUsers = async () => {
     try {
@@ -21,8 +22,6 @@ const Leaderboard = () => {
     getUsers();
   }, []);
 
-  console.log(users);
-
   return (
     <Fragment>
       <h1 className="text-center mt-5" style={{ textAlign: "center" }}>
@@ -32,7 +31,9 @@ const Leaderboard = () => {
         <tbody>
           {users.map((user) => (
             <tr>
-              <td>{user.name}</td>
+              <td>
+                {user.user_id} {user.name}
+              </td>
             </tr>
           ))}
         </tbody>

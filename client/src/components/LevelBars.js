@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import LevelBar from "./LevelBar";
 
-const LevelBars = () => {
+const LevelBars = ({ str, int, char }) => {
   const [user, setUser] = useState([]);
 
   const getUser = async () => {
@@ -24,13 +24,9 @@ const LevelBars = () => {
 
   return (
     <Fragment>
-      <LevelBar name="Strength" exp={user[0].strength_exp} color="red" />
-      <LevelBar
-        name="Intelligence"
-        exp={user[0].intelligence_exp}
-        color="green"
-      />
-      <LevelBar name="Charisma" exp={user[0].charisma_exp} color="" />
+      <LevelBar name="Strength" exp={str} color="red" />
+      <LevelBar name="Intelligence" exp={int} color="green" />
+      <LevelBar name="Charisma" exp={char} color="" />
     </Fragment>
   );
 };

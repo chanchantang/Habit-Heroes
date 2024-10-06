@@ -7,6 +7,10 @@ import LevelBars from "./LevelBars";
 import List from "./List";
 
 const HomeComponent = () => {
+  const [str, setStr] = useState(534);
+  const [int, setInt] = useState(241);
+  const [char, setChar] = useState(343);
+
   return (
     <div className="container-fluid" style={{ height: "100vh" }}>
       <div
@@ -15,9 +19,16 @@ const HomeComponent = () => {
       >
         <div className="container">
           <CharacterSprite />
-          <LevelBars />
+          <LevelBars str={str} int={int} char={char} />
           <Input />
-          <List />
+          <List
+            str={str}
+            int={int}
+            char={char}
+            setStr={setStr}
+            setInt={setInt}
+            setChar={setChar}
+          />
         </div>
       </div>
     </div>

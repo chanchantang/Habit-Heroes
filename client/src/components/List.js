@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 
 import Edit from "./Edit";
 
-const List = () => {
+const List = ({ str, setStr, int, setInt, char, setChar }) => {
   const [todos, setTodos] = useState([]);
 
   const handleCheckboxChange = async (todo_id) => {
@@ -12,6 +12,30 @@ const List = () => {
     setTodos(updatedTodos);
 
     const updatedTodo = updatedTodos.find((todo) => todo.todo_id === todo_id);
+
+    switch (updatedTodo.type) {
+      case "Strength":
+        if (updatedTodo.completed) {
+          setStr(str + updatedTodo.experience);
+        } else {
+          setStr(str - updatedTodo.experience);
+        }
+        break;
+      case "Intelligence":
+        if (updatedTodo.completed) {
+          setInt(int + updatedTodo.experience);
+        } else {
+          setInt(int - updatedTodo.experience);
+        }
+        break;
+      case "Charisma":
+        if (updatedTodo.completed) {
+          setChar(char + updatedTodo.experience);
+        } else {
+          setChar(char - updatedTodo.experience);
+        }
+        break;
+    }
 
     // Send the updated 'completed' status to the server
     try {
