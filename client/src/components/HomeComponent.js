@@ -16,7 +16,6 @@ const HomeComponent = () => {
         className="d-flex justify-content-center align-items-center"
       >
         <div className="container">
-          <CharacterSprite />
           <LevelBars />
           <Input />
           <List />
