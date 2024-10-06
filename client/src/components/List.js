@@ -30,8 +30,8 @@ const List = () => {
 
   const getTodos = async () => {
     try {
-      console.log("@@ fetching: ", `${process.env.REACT_APP_API_URL}/todos`);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`);
+      console.log("@@ fetching: ", `${process.env.REACT_APP_API_URL}/users/1`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users/1`);
       const jsonData = await response.json();
 
       setTodos(jsonData);
