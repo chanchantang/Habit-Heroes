@@ -1,30 +1,27 @@
-import React from 'react';
-<script src="https://code.highcharts.com/highcharts.js"></script>
+// src/components/Chart.js
+import React, {useEffect} from 'react';
+import Highcharts from 'highcharts';
+import histogramBellcurve from 'highcharts/modules/histogram-bellcurve';
 
-var React=require('react'),
-    Highcharts = require ('highcharts');
-module.exports = React.createClass({
-    // When the DOM is ready, create the chart. 
-    componentDidMount: function () {
-        // Extend Highcharts with modules
-        if (this.props.modules) {
-            this.props.modules.forEach(function (module) {
+// {/* <script src="https://code.highcharts.com/highcharts.js"></script> */}
+
+const Chart = ({options, container, modules, type = "Chart" }) =>{
+    useEffect(() => {
+        if(modules){
+            modules.forEach(module => {
                 module(Highcharts);
             });
         }
-        // Set container which the chart should render to. 
-        this.chart = new Highcharts[this.props.type || "Chart"](
-            this.props.container, 
-            this.props.options
-        );
-},
-//Destroy chart before unmount.
-componentWillUnmount: function () {
-    this.chart.destroy();
-}, 
-//Create the div which the chart will be rendered to. 
-render: function () {
-    return React.createElement('div', { id: this.props.container });
-} 
-}); 
+        
+        // Create the chart instance
+        const chart = new Highcharts[type](container, options);
 
+        // Cleanup function to destroy the chart before unmounting
+        return() => {
+            chart.destroy();
+        };
+    }, [options, container, modules, type]);
+    return <div id={container}></div>;
+}
+
+export default Chart;

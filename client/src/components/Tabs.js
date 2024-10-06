@@ -15,7 +15,6 @@ const Tabs = () => {
         return <HomeComponent />;
       case "metrics":
         return <Metrics />;
-
       default:
         return null;
     }
