@@ -10,7 +10,6 @@ const Edit = ({ todo }) => {
   const [experience, setExperience] = useState(todo.experience);
   const [show, setShow] = useState(false);
   const [difficulty, setDifficulty] = useState(todo.difficulty);
-  const [type, setType] = useState(todo.type);
 
 
   const handleClose = () => {

@@ -20,7 +20,7 @@ const HomeComponent = () => {
         className="d-flex justify-content-center align-items-center"
       >
         <div className="container">
-          <LevelBars />
+          <LevelBars str={str} int={int} char={char} />
           <Input />
           <List
             str={str}
