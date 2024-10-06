@@ -15,22 +15,6 @@ function App() {
         <Tabs/>
       </div>
     </Fragment>
-    // <Router>
-    //   <Fragment>
-    //     <div className="horizontal-scroll">
-    //       <Routes>
-    //         <Route path="/" element={
-    //           <div className="container">
-    //             <CharacterSprite />
-    //             <Input />
-    //             <List />
-    //           </div>
-    //         } />
-    //         <Route path="/userProfile" element={<UserProfilePage />} /> {/* Use element prop */}
-    //       </Routes>
-    //     </div>
-    //   </Fragment>
-    // </Router>
   );
 }
 
