@@ -163,6 +163,25 @@ app.get("/users/:user_id", async (req, res) => {
   }
 });
 
+app.get("/user/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+  console.log(user_id);
+  try {
+    const result = await pool.query(`SELECT * FROM users WHERE user_id = $1`, [
+      user_id,
+    ]);
+
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows); // Return the task if found
+    } else {
+      res.status(404).json({ error: "Task not found" }); // Return 404 if no task matches the given user ID and task ID
+    }
+  } catch (error) {
+    console.error("Error fetching task from PostgreSQL:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.get("/todos/:id", async (req, res) => {
   try {
     const { id } = req.params;
