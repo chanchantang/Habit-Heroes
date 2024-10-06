@@ -32,8 +32,6 @@ const Metrics = () => {
         else{
             setShowChart(true);
         }
-         // Set state to show the chart
-        alert("Chart Button Clicked!");
     };
 
     const handleClickHist = () => {
@@ -43,8 +41,6 @@ const Metrics = () => {
         else{
             setShowHistogram(true);
         }
-         // Set state to show the chart
-        alert("Histogram Button Clicked!");
     };
     return (
         <div className="page">
