@@ -5,13 +5,27 @@ import Edit from "./Edit";
 const List = () => {
   const [todos, setTodos] = useState([]);
 
-  const [isChecked, setIsChecked] = useState(false);
+  const handleCheckboxChange = async (todo_id) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.todo_id === todo_id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+    const updatedTodo = updatedTodos.find((todo) => todo.todo_id === todo_id);
+
+    // Send the updated 'completed' status to the server
+    try {
+      await fetch(`${process.env.REACT_APP_API_URL}/todos/${todo_id}`, {
+        method: "PUT", // Or PATCH depending on your API setup
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ completed: updatedTodo.completed }),
+      });
+    } catch (error) {
+      console.error("Error updating todo:", error.message);
+    }
   };
-
-  //delete todo function
 
   const deleteTodo = async (id) => {
     try {
@@ -62,11 +76,14 @@ const List = () => {
         <tbody>
           {todos.map((todo) => (
             <tr key={todo.todo_id}>
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />
+              {/* Ensure the checkbox is placed inside a <td> */}
+              <td>
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => handleCheckboxChange(todo.todo_id)}
+                />
+              </td>
               <td>{todo.description}</td>
               <td>{todo.experience}</td>
               <td>{todo.type}</td>
