@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Edit = ({ todo }) => {
   const [description, setDescription] = useState(todo.description);
@@ -13,14 +13,20 @@ const Edit = ({ todo }) => {
 
   const handleShow = () => setShow(true);
 
-  const updateDescription = async (event) => {
+  const updateTodo = async (event) => {
     event.preventDefault();
     try {
-      const body = { description };
       await fetch(`${process.env.REACT_APP_API_URL}/todos/${todo.todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          completed: todo.completed,
+          date: todo.date,
+          description: todo.description,
+          type: todo.type,
+          difficulty: todo.difficulty,
+          experience: todo.experience,
+        }),
       });
 
       window.location = "/";
@@ -58,7 +64,7 @@ const Edit = ({ todo }) => {
           <Button
             variant="warning"
             onClick={(e) => {
-              updateDescription(e);
+              updateTodo(e);
               handleClose();
             }}
           >

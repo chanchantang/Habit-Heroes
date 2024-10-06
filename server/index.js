@@ -111,7 +111,7 @@ app.post("/todos", async (req, res) => {
       chat_json.stat,
       "Easy",
       chat_json.experience,
-      true,
+      false,
       "2024-10-06",
     ]);
 

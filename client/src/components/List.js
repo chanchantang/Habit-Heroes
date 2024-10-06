@@ -20,7 +20,14 @@ const List = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ completed: updatedTodo.completed }),
+        body: JSON.stringify({
+          completed: updatedTodo.completed,
+          date: updatedTodo.date,
+          description: updatedTodo.description,
+          type: updatedTodo.type,
+          difficulty: updatedTodo.difficulty,
+          experience: updatedTodo.experience,
+        }),
       });
     } catch (error) {
       console.error("Error updating todo:", error.message);
