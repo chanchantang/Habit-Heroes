@@ -10,11 +10,16 @@ import Tabs from "./components/Tabs";
 
 function App() {
   return (
-    <Fragment>
-      <div className="horizontal-scroll">
+    <div>
+      <div className="container-fluid">
         <Tabs/>
       </div>
-    </Fragment>
+      {/* <div className="container">
+        <Level name="str" exp={10} color="red" />
+        <Level name="int" exp={20} color="green" />
+        <Level name="char" exp={30} color="" />
+      </div> */}
+    </div>
   );
 }
 

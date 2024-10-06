@@ -1,10 +1,9 @@
 // src/components/Tabs.js
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Metrics from './Metrics';
-import CharacterSprite from './CharacterSprite';
-import Input from "./Input";
-import List from "./List";
+import HomeComponent from './HomeComponent';
+
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState("home");
@@ -22,26 +21,22 @@ const Tabs = () => {
 
   return (
     <div>
-      <div className="tab-buttons">
-        <button onClick={() => setActiveTab("home")}>Home</button>
-        <button onClick={() => setActiveTab("metrics")}>Metrics</button>
+      <div className="d-flex justify-content-start">
+        <div className="tab-buttons">
+          <button onClick={() => setActiveTab("home")}>Home</button>
+          <button onClick={() => setActiveTab("metrics")}>Metrics</button>
+        </div>
       </div>
-      <div className="tab-content">
-        {renderContent()}
+      <div>
+        <div className="d-flex justify-content-center">
+          <div className="tab-content">
+            {renderContent()}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-const HomeComponent = () => (
-  <div>
-    <h1>Home Page</h1>
-    <div className="container">
-                <CharacterSprite />
-                <Input />
-                <List />
-    </div>
-  </div>
-);
 
 export default Tabs;

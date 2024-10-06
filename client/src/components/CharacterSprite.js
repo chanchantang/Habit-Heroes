@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CharacterSprite = () => {
     return (
-        <div className="character-sprite">
+        <div>
             <img src={require('./character.png')} alt="Character" />
         </div>
     );
