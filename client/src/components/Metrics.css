@@ -1,0 +1,14 @@
+/* src/UserProfilePage.css */
+.userProfilePage {
+    width: 100vw; /* Each page takes full viewport width */
+    height: 100vh; /* Each page takes full viewport height */
+    display: flex; /* Center content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    font-size: 2rem; /* Increase text size */
+    overflow: hidden; /* Hide overflow */
+}
+
+body {
+    overflow-x: hidden; /* Prevent default horizontal scrolling */
+}
