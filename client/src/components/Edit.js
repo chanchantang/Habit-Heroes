@@ -22,7 +22,7 @@ const Edit = ({ todo }) => {
         body: JSON.stringify({
           completed: todo.completed,
           date: todo.date,
-          description: todo.description,
+          description: description,
           type: todo.type,
           difficulty: todo.difficulty,
           experience: todo.experience,
