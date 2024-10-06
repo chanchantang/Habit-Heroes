@@ -26,6 +26,7 @@ const createData = `
       description VARCHAR(255),
       type todo_type,
       difficulty difficulty_level,
+      experience INT,
       completed BOOL,
       date DATE
     );
@@ -35,12 +36,13 @@ pool.query(createData);
 
 //Routes
 app.post("/todos", async (req, res) => {
-  const { description, type, difficulty, completed, date } = req.body; // Destructure incoming data
+  const { description, type, difficulty, experience, completed, date } =
+    req.body; // Destructure incoming data
   console.log(req.body);
   // SQL query to insert data
   const query = `
-    INSERT INTO todo (description, type, difficulty, completed, date)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO todo (description, type, difficulty, experience, completed, date)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `;
 
@@ -50,6 +52,7 @@ app.post("/todos", async (req, res) => {
       description,
       type,
       difficulty,
+      experience,
       completed,
       date,
     ]);
@@ -87,16 +90,20 @@ app.get("/todos/:id", async (req, res) => {
 app.put("/todos/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { description, type, difficulty, date } = req.body;
+    const { description, type, difficulty, experience, completed, date } =
+      req.body;
     const updateTodo = await pool.query(
       `UPDATE todo
-        SET description = $1,
-            type = $2,
-            difficulty = $3,
-            date = $4
-        WHERE todo_id = $5
+        SET
+          description = $1,
+          type = $2,
+          difficulty = $3,
+          experience = $4,
+          completed = $5,
+          date = $6
+        WHERE todo_id = $7
       RETURNING *;`,
-      [description, type, difficulty, date, id]
+      [description, type, difficulty, experience, completed, date, id]
     );
 
     res.json("Todo was updated!");
