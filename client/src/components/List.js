@@ -7,13 +7,16 @@ const List = () => {
 
   //delete todo function
 
-  const deleteTodo = async id => {
+  const deleteTodo = async (id) => {
     try {
-      const deleteTodo = await fetch(`${process.env.REACT_APP_API_URL}/todos/${id}`, {
-        method: "DELETE"
-      });
+      const deleteTodo = await fetch(
+        `${process.env.REACT_APP_API_URL}/todos/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-      setTodos(todos.filter(todo => todo.todo_id !== id));
+      setTodos(todos.filter((todo) => todo.todo_id !== id));
     } catch (error) {
       console.error(error.message);
     }
@@ -21,7 +24,7 @@ const List = () => {
 
   const getTodos = async () => {
     try {
-      console.log('@@ fetching: ', `${process.env.REACT_APP_API_URL}/todos`)
+      console.log("@@ fetching: ", `${process.env.REACT_APP_API_URL}/todos`);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`);
       const jsonData = await response.json();
 
@@ -48,7 +51,7 @@ const List = () => {
           </tr>
         </thead>
         <tbody>
-          {todos.map(todo => (
+          {todos.map((todo) => (
             <tr key={todo.todo_id}>
               <td>{todo.description}</td>
               <td>

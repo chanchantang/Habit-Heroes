@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Edit = ({ todo }) => {
   const [description, setDescription] = useState(todo.description);
