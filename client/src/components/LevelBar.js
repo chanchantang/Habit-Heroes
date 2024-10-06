@@ -17,6 +17,9 @@ const LevelBar = ({ name, exp, color }) => {
       style_color = "bg-info";
   }
 
+  console.log("exp");
+  console.log(exp);
+
   return (
     <Fragment>
       <h1>{name}</h1>
