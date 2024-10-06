@@ -7,8 +7,8 @@ import DropdownInput from "./Dropdown.js";
 const Edit = ({ todo }) => {
   const [description, setDescription] = useState(todo.description);
   const [show, setShow] = useState(false);
-  const [difficulty, setDifficulty] = useState("");
-  const [type, setType] = useState("");
+  const [difficulty, setDifficulty] = useState(todo.difficulty);
+  const [type, setType] = useState(todo.type);
 
 
   const handleClose = () => {
@@ -64,7 +64,11 @@ const Edit = ({ todo }) => {
             </Form.Group>
           </Form>
           <DropdownInput options={["Easy", "Medium", "Hard"]} setState={setDifficulty} label="Difficulty" />
-          <DropdownInput options={["Strength", "Intelligence", "Charisma"]} setState={setType} label="Type" />
+          <DropdownInput 
+            options={["Strength", "Intelligence", "Charisma"]} 
+            setState={setType} 
+            label="Type" 
+            onChange={(e) => setType(e.target.value)}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
