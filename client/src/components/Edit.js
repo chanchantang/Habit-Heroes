@@ -1,10 +1,15 @@
 import React, { Fragment, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import DropdownInput from "./Dropdown.js";
+
 
 const Edit = ({ todo }) => {
   const [description, setDescription] = useState(todo.description);
   const [show, setShow] = useState(false);
+  const [difficulty, setDifficulty] = useState(todo.difficulty);
+  const [type, setType] = useState(todo.type);
+
 
   const handleClose = () => {
     setDescription(todo.description);
@@ -35,6 +40,8 @@ const Edit = ({ todo }) => {
     }
   };
 
+
+
   return (
     <Fragment>
       <Button variant="secondary" onClick={handleShow}>
@@ -56,6 +63,12 @@ const Edit = ({ todo }) => {
               />
             </Form.Group>
           </Form>
+          <DropdownInput options={["Easy", "Medium", "Hard"]} setState={setDifficulty} label="Difficulty" />
+          <DropdownInput 
+            options={["Strength", "Intelligence", "Charisma"]} 
+            setState={setType} 
+            label="Type" 
+            onChange={(e) => setType(e.target.value)}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
