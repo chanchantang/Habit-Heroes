@@ -47,10 +47,10 @@ const Metrics = () => {
             <h1>Metrics</h1>
             <p>This is the page for user metrics</p>
             <button onClick={handleClickChart} class="btn btn-primary">Chart</button>
+            <button onClick={handleClickHist} class="btn btn-secondary">Histogram</button>
             {showChart && (
                 <Chart options={options} container="chart" />
             )}
-            <button onClick={handleClickHist} class="btn btn-secondary">Histogram</button>
             {showHistogram && (
                 <Histogram options={options} container="histogram" />
             )}
