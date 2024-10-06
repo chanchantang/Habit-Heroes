@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+const OpenAI = require("openai");
+
+const openai = new OpenAI({ apiKey: 'API KEY HERE'});
 
 app.use(cors());
 app.use(express.json());
@@ -11,7 +14,7 @@ const createData = `
     BEGIN
       -- Create 'todo_type' enum if it doesn't exist
       IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'todo_type') THEN
-        CREATE TYPE todo_type AS ENUM ('str', 'int', 'char');
+        CREATE TYPE todo_type AS ENUM ('Strength', 'Intelligence', 'Charisma');
       END IF;
 
       -- Create 'difficulty_level' enum if it doesn't exist
@@ -36,9 +39,24 @@ pool.query(createData);
 
 //Routes
 app.post("/todos", async (req, res) => {
-  const { description, type, difficulty, experience, completed, date } =
-    req.body; // Destructure incoming data
-  console.log(req.body);
+
+  // TODO type, difficulty, experience, completed, date
+  const { description } = req.body;
+
+  const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+          { role: "system", content: "I am in a video game and I have 3 stats: Strength, Intelligence and Charisma. I will give you a task that I have completed and I want you to tell me what stat would completing that task level up. And also give me a number of experience points depending on how difficult that task was to complete. Also give a null stat and 0 experience points for tasks that are usually unhealthy. Provide the response in JSON format {stat: ..., experience: ...}" },
+          {
+              role: "user",
+              content: description,
+          },
+      ],
+  });
+
+  const chat_response = completion.choices[0].message.content;
+  const chat_json = JSON.parse(chat_response);
+
   // SQL query to insert data
   const query = `
     INSERT INTO todo (description, type, difficulty, experience, completed, date)
@@ -48,13 +66,22 @@ app.post("/todos", async (req, res) => {
 
   try {
     // Execute the query
+    // const result = await pool.query(query, [
+    //   description,
+    //   type,
+    //   difficulty,
+    //   experience,
+    //   completed,
+    //   date,
+    // ]);
+
     const result = await pool.query(query, [
       description,
-      type,
-      difficulty,
-      experience,
-      completed,
-      date,
+      chat_json.stat,
+      "Hard",
+      chat_json.experience,
+      true,
+      "2024-10-05",
     ]);
 
     // Send back the inserted row as the response
