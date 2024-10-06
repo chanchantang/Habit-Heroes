@@ -4,7 +4,7 @@ const cors = require("cors");
 const pool = require("./db");
 const OpenAI = require("openai");
 
-const openai = new OpenAI({ apiKey: 'API KEY HERE'});
+const openai = new OpenAI({ apiKey: "API KEY HERE" });
 
 app.use(cors());
 app.use(express.json());
@@ -23,9 +23,14 @@ const createData = `
       END IF;
     END $$;
 
-    -- Create the 'todo' table if it doesn't exist
+    CREATE TABLE IF NOT EXISTS users (
+      user_id INT PRIMARY KEY,
+      name VARCHAR(255)
+    );
+
     CREATE TABLE IF NOT EXISTS todo (
       todo_id SERIAL PRIMARY KEY,
+      user_id INT REFERENCES users(user_id),
       description VARCHAR(255),
       type todo_type,
       difficulty difficulty_level,
@@ -33,25 +38,60 @@ const createData = `
       completed BOOL,
       date DATE
     );
-    `;
+
+-- Inserting data into 'user' table
+INSERT INTO "users" (user_id, name)
+VALUES
+  (1, 'Alice'),
+  (2, 'Bob'),
+  (3, 'Charlie');
+
+
+-- Inserting data into 'todo' table for Alice (user_id = 1)
+INSERT INTO todo (description, type, difficulty, experience, completed, date, user_id)
+VALUES
+  ('Complete 30 push-ups', 'Strength', 'Medium', 50, FALSE, '2024-10-06', 1),
+  ('Solve math puzzles', 'Intelligence', 'Hard', 100, FALSE, '2024-10-05', 1),
+  ('Give a presentation', 'Charisma', 'Medium', 60, FALSE, '2024-10-04', 1);
+
+-- Inserting data into 'todo' table for Bob (user_id = 2)
+INSERT INTO todo (description, type, difficulty, experience, completed, date, user_id)
+VALUES
+  ('Lift weights for an hour', 'Strength', 'Hard', 150, FALSE, '2024-10-03', 2),
+  ('Read a scientific paper', 'Intelligence', 'Medium', 75, FALSE, '2024-10-02', 2),
+  ('Organize a meeting', 'Charisma', 'Easy', 30, FALSE, '2024-10-01', 2);
+
+-- Inserting data into 'todo' table for Charlie (user_id = 3)
+INSERT INTO todo (description, type, difficulty, experience, completed, date, user_id)
+VALUES
+  ('Run 5 miles', 'Strength', 'Hard', 200, FALSE, '2024-10-06', 3),
+  ('Study programming', 'Intelligence', 'Medium', 90, FALSE, '2024-10-05', 3),
+  ('Host a networking event', 'Charisma', 'Hard', 120, FALSE, '2024-10-04', 3),
+  ('Complete a book on public speaking', 'Charisma', 'Medium', 80, FALSE, '2024-10-03', 3);
+
+
+  `;
 
 pool.query(createData);
 
 //Routes
 app.post("/todos", async (req, res) => {
-
   // TODO type, difficulty, experience, completed, date
   const { description } = req.body;
 
   const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-          { role: "system", content: "I am in a video game and I have 3 stats: Strength, Intelligence and Charisma. I will give you a task that I have completed and I want you to tell me what stat would completing that task level up. And also give me a number of experience points depending on how difficult that task was to complete. Also give a null stat and 0 experience points for tasks that are usually unhealthy. Provide the response in JSON format {stat: ..., experience: ...}" },
-          {
-              role: "user",
-              content: description,
-          },
-      ],
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content:
+          "I am in a video game and I have 3 stats: Strength, Intelligence and Charisma. I will give you a task that I have completed and I want you to tell me what stat would completing that task level up. And also give me a number of experience points depending on how difficult that task was to complete. Also give a null stat and 0 experience points for tasks that are usually unhealthy. Provide the response in JSON format {stat: ..., experience: ...}",
+      },
+      {
+        role: "user",
+        content: description,
+      },
+    ],
   });
 
   const chat_response = completion.choices[0].message.content;
@@ -59,29 +99,20 @@ app.post("/todos", async (req, res) => {
 
   // SQL query to insert data
   const query = `
-    INSERT INTO todo (description, type, difficulty, experience, completed, date)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO todo (user_id, description, type, difficulty, experience, completed, date)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;
   `;
 
   try {
-    // Execute the query
-    // const result = await pool.query(query, [
-    //   description,
-    //   type,
-    //   difficulty,
-    //   experience,
-    //   completed,
-    //   date,
-    // ]);
-
     const result = await pool.query(query, [
+      1,
       description,
       chat_json.stat,
-      "Hard",
+      "Easy",
       chat_json.experience,
       true,
-      "2024-10-05",
+      "2024-10-06",
     ]);
 
     // Send back the inserted row as the response
@@ -96,6 +127,15 @@ app.get("/todos", async (req, res) => {
   try {
     const allTodos = await pool.query("SELECT * FROM todo");
     res.json(allTodos.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const allUsers = await pool.query("SELECT * FROM users");
+    res.json(allUsers.rows);
   } catch (error) {
     console.error(error.message);
   }
