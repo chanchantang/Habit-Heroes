@@ -19,7 +19,9 @@ const LevelBar = ({ name, exp, color }) => {
 
   return (
     <Fragment>
-      <h1>{name}</h1>
+      <h1>
+        {name}: lvl {Math.floor(exp / 100)}
+      </h1>
       <div class="progress">
         <div
           class={`progress-bar ${style_color}`}
