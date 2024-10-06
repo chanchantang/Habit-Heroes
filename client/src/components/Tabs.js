@@ -3,6 +3,7 @@ import React, { useState, Fragment } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Metrics from './Metrics';
 import HomeComponent from './HomeComponent';
+import Leaderboard from './Leaderboard';
 
 
 const Tabs = () => {
@@ -14,6 +15,8 @@ const Tabs = () => {
         return <HomeComponent />;
       case "metrics":
         return <Metrics />;
+      case "leaderboard":
+        return <Leaderboard />;
       default:
         return null;
     }
@@ -25,6 +28,7 @@ const Tabs = () => {
         <div className="tab-buttons">
           <button onClick={() => setActiveTab("home")}>Home</button>
           <button onClick={() => setActiveTab("metrics")}>Metrics</button>
+          <button onClick={() => setActiveTab("leaderboard")}>Leaderboard</button>
         </div>
       </div>
       <div>
