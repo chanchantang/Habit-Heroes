@@ -25,7 +25,10 @@ const createData = `
 
     CREATE TABLE IF NOT EXISTS users (
       user_id INT PRIMARY KEY,
-      name VARCHAR(255)
+      name VARCHAR(255),
+      strength_exp INT,
+      intelligence_exp INT,
+      charisma_exp INT
     );
 
     CREATE TABLE IF NOT EXISTS todo (
@@ -40,11 +43,11 @@ const createData = `
     );
 
 -- Inserting data into 'user' table
-INSERT INTO "users" (user_id, name)
+INSERT INTO "users" (user_id, name, strength_exp, intelligence_exp, charisma_exp)
 VALUES
-  (1, 'Alice'),
-  (2, 'Bob'),
-  (3, 'Charlie');
+  (1, 'Alice', 124, 412, 532),
+  (2, 'Bob', 645, 224, 252),
+  (3, 'Charlie', 363, 123, 754);
 
 
 -- Inserting data into 'todo' table for Alice (user_id = 1)
@@ -169,7 +172,7 @@ app.get("/todos/:id", async (req, res) => {
 
     res.json(todo.rows[0]);
   } catch (error) {
-    console.error(err.message);
+    console.error(error.message);
   }
 });
 
@@ -213,7 +216,28 @@ app.put("/todos/:id", async (req, res) => {
 
     res.json("Todo was updated!");
   } catch (error) {
-    console.error(err.message);
+    console.error(error.message);
+  }
+});
+
+app.put("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { strength_exp, intelligence_exp, charisma_exp } = req.body;
+    const updateUser = await pool.query(
+      `UPDATE users
+        SET
+          strength_exp = $1,
+          intelligence_exp = $2,
+          charisma_exp = $3
+        WHERE user_id = $4
+      RETURNING *;`,
+      [strength_exp, intelligence_exp, charisma_exp, id]
+    );
+
+    res.json("User was updated!");
+  } catch (error) {
+    console.error(error.message);
   }
 });
 
