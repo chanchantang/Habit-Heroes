@@ -6,8 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CharacterSprite = () => {
     return (
-        <div>
-            <img src={require('./character.png')} alt="Character" />
+        <div className='d-flex justify-content-end'>
+            <img src={require('./character.gif')} alt="Character" className='img-fluid' style={{width:'30%', transform:'scaleX(-1'}}/>
         </div>
     );
 };

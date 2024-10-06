@@ -26,12 +26,13 @@ const HomeComponent = () => {
 
   return (
     <div className="container-fluid" style={{ height: "100vh" }}>
+      <div className="d-flex justify-content-end align-items-center">
+        <CharacterSprite />
+      </div>
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: "100%" }}
       >
         <div className="container">
-          <CharacterSprite />
           <LevelBar name="Strength" exp="50" color="red" />
           <LevelBar name="Intelligence" exp="30" color="green" />
           <LevelBar name="Charisma" exp="70" color="" />

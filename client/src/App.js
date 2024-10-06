@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import "./App.css";
 import Tabs from "./components/Tabs";
+import backgroundImage from './components/background.jpeg'
 // import Input from "./components/Input";
 // import List from "./components/List";
 // import CharacterSprite from "./components/CharacterSprite";
@@ -8,15 +9,18 @@ import Tabs from "./components/Tabs";
 
 function App() {
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        width: '100%'
+      }}
+    >
       <div className="container-fluid">
         <Tabs />
       </div>
-      {/* <div className="container">
-        <Level name="str" exp={10} color="red" />
-        <Level name="int" exp={20} color="green" />
-        <Level name="char" exp={30} color="" />
-      </div> */}
     </div>
   );
 }
