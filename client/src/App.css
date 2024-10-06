@@ -1,0 +1,13 @@
+/* src/App.css */
+.horizontal-scroll {
+    display: flex; /* Use flexbox for horizontal layout */
+    flex-direction: row; /* Arrange children in a row */
+    width: 300vw; /* Total width of all pages combined */
+    height: 100vh; /* Full height */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    scroll-snap-type: x mandatory; /* Snap scrolling */
+}
+
+.page {
+    scroll-snap-align: start; /* Snap to the start of each page */
+}

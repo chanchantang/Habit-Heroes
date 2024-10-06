@@ -14,7 +14,7 @@ In this sample, we have set up the essential files you need to deploy in product
 
 ## Development
 
-To start the development environment, run `docker compose -f ./compose.yaml -f ./compose.dev.yaml up`. This will start the Postgres container, the React container, and the NodeJS container. The development container (compose.dev.yaml) will override the production container (compose.yaml).
+To start the development environment, run `docker compose -f ./compose.yaml -f ./compose.dev.yaml up --build`. This will start the Postgres container, the React container, and the NodeJS container. The development container (compose.dev.yaml) will override the production container (compose.yaml).
 
 Or run without using Docker by doing the following:
 

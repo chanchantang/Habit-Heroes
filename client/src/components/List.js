@@ -5,15 +5,45 @@ import Edit from "./Edit";
 const List = () => {
   const [todos, setTodos] = useState([]);
 
-  //delete todo function
+  const handleCheckboxChange = async (todo_id) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.todo_id === todo_id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
 
-  const deleteTodo = async id => {
+    const updatedTodo = updatedTodos.find((todo) => todo.todo_id === todo_id);
+
+    // Send the updated 'completed' status to the server
     try {
-      const deleteTodo = await fetch(`${process.env.REACT_APP_API_URL}/todos/${id}`, {
-        method: "DELETE"
+      await fetch(`${process.env.REACT_APP_API_URL}/todos/${todo_id}`, {
+        method: "PUT", // Or PATCH depending on your API setup
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          completed: updatedTodo.completed,
+          date: updatedTodo.date,
+          description: updatedTodo.description,
+          type: updatedTodo.type,
+          difficulty: updatedTodo.difficulty,
+          experience: updatedTodo.experience,
+        }),
       });
+    } catch (error) {
+      console.error("Error updating todo:", error.message);
+    }
+  };
 
-      setTodos(todos.filter(todo => todo.todo_id !== id));
+  const deleteTodo = async (id) => {
+    try {
+      const deleteTodo = await fetch(
+        `${process.env.REACT_APP_API_URL}/todos/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      setTodos(todos.filter((todo) => todo.todo_id !== id));
     } catch (error) {
       console.error(error.message);
     }
@@ -21,8 +51,8 @@ const List = () => {
 
   const getTodos = async () => {
     try {
-      console.log('@@ fetching: ', `${process.env.REACT_APP_API_URL}/todos`)
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`);
+      console.log("@@ fetching: ", `${process.env.REACT_APP_API_URL}/users/1`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users/1`);
       const jsonData = await response.json();
 
       setTodos(jsonData);
@@ -42,15 +72,28 @@ const List = () => {
       <table className="table mt-5 text-center">
         <thead>
           <tr>
+            <th>Completed</th>
             <th>Description</th>
+            <th>Experience</th>
+            <th>Type</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {todos.map(todo => (
+          {todos.map((todo) => (
             <tr key={todo.todo_id}>
+              {/* Ensure the checkbox is placed inside a <td> */}
+              <td>
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => handleCheckboxChange(todo.todo_id)}
+                />
+              </td>
               <td>{todo.description}</td>
+              <td>{todo.experience}</td>
+              <td>{todo.type}</td>
               <td>
                 <Edit todo={todo} />
               </td>

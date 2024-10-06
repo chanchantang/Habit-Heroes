@@ -1,0 +1,13 @@
+/* src/CharacterSprite.css */
+.character-sprite {
+    position: absolute; /* Use absolute positioning */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    width: 50px; /* Set the width of the sprite */
+    height: auto; /* Maintain the aspect ratio */
+}
+
+img {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Maintain the aspect ratio */
+}
