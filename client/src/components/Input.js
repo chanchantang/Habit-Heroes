@@ -1,9 +1,7 @@
 import React, { Fragment, useState } from "react";
-import DropdownInput from "./Dropdown.js";
 
 const Input = () => {
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
 
   const onSubmitForm = async (event) => {
     event.preventDefault();
@@ -34,8 +32,6 @@ const Input = () => {
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
-        <DropdownInput options={["str", "int", "char"]} setState={setType} />
-
         <button className="btn btn-success">Add</button>
       </form>
     </Fragment>
