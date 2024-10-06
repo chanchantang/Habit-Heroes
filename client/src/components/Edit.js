@@ -4,10 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Edit = ({ todo }) => {
   const [description, setDescription] = useState(todo.description);
+  const [type, setType] = useState(todo.type);
+  const [experience, setExperience] = useState(todo.experience);
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
     setDescription(todo.description);
+    setType(todo.type);
+    setExperience(todo.experience);
     setShow(false);
   };
 
@@ -23,9 +27,9 @@ const Edit = ({ todo }) => {
           completed: todo.completed,
           date: todo.date,
           description: description,
-          type: todo.type,
+          type: type,
           difficulty: todo.difficulty,
-          experience: todo.experience,
+          experience: experience,
         }),
       });
 
@@ -53,6 +57,18 @@ const Edit = ({ todo }) => {
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+              />
+              <Form.Label>Type</Form.Label>
+              <Form.Control
+                type="text"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              />
+              <Form.Label>Experience</Form.Label>
+              <Form.Control
+                type="text"
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
               />
             </Form.Group>
           </Form>
